@@ -5,4 +5,5 @@ add_executable(
                      local/test_smearing.cpp)
 target_link_libraries(nlcglib_unit_tests PRIVATE nlcglib_test_support
                                                  GTest::gtest)
+nlcglib_set_kokkos_language(nlcglib_unit_tests)
 add_test(NAME nlcglib.unit_tests COMMAND nlcglib_unit_tests)

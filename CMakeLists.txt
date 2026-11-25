@@ -44,6 +44,23 @@ list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 find_package(MPI REQUIRED COMPONENTS CXX)
 find_package(Kokkos REQUIRED CONFIG)
+
+# With Kokkos_ENABLE_COMPILE_AS_CMAKE_LANGUAGE, sources that include Kokkos are
+# compiled with the language Kokkos was built for (CUDA or HIP).
+if(Kokkos_COMPILE_LANGUAGE AND NOT Kokkos_COMPILE_LANGUAGE STREQUAL "CXX")
+  set(CMAKE_${Kokkos_COMPILE_LANGUAGE}_ARCHITECTURES
+      ${Kokkos_${Kokkos_COMPILE_LANGUAGE}_ARCHITECTURES})
+  enable_language(${Kokkos_COMPILE_LANGUAGE})
+endif()
+
+function(nlcglib_set_kokkos_language target)
+  if(Kokkos_COMPILE_LANGUAGE AND NOT Kokkos_COMPILE_LANGUAGE STREQUAL "CXX")
+    get_target_property(_sources ${target} SOURCES)
+    set_source_files_properties(${_sources}
+                                PROPERTIES LANGUAGE ${Kokkos_COMPILE_LANGUAGE})
+  endif()
+endfunction()
+
 find_package(nlohmann_json 3.2.0 REQUIRED CONFIG)
 find_package(fmt REQUIRED CONFIG)
 
