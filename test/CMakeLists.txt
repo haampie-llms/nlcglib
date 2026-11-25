@@ -1,5 +1,6 @@
 add_executable(test_lapack test.cpp)
 target_link_libraries(test_lapack PRIVATE nlcglib_test_support)
+nlcglib_set_kokkos_language(test_lapack)
 
 set(nlcglib_tests
     traits
@@ -20,4 +21,5 @@ endif()
 foreach(nlcglib_test IN LISTS nlcglib_tests)
   add_executable(test_${nlcglib_test} test_${nlcglib_test}.cpp)
   target_link_libraries(test_${nlcglib_test} PRIVATE nlcglib_test_support)
+  nlcglib_set_kokkos_language(test_${nlcglib_test})
 endforeach()

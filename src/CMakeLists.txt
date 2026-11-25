@@ -63,6 +63,7 @@ endif()
 if(USE_MAGMA)
   target_sources(nlcglib PRIVATE la/magma.cpp)
 endif()
+nlcglib_set_kokkos_language(nlcglib)
 
 target_compile_features(
   nlcglib
